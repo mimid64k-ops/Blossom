@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blossom: The Seed of Life</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Syne:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --mars:       #c0522a;
+      --mars-dark:  #1a0e08;
+      --rust:       #8b3a1c;
+      --glow-green: #7dff8a;
+      --glow-teal:  #3dffd4;
+      --orange:     #ff8c42;
+      --text:       #f0e6d3;
+      --muted:      #9a8a78;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Syne', sans-serif;
+      background: var(--mars-dark);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* STARS */
+    .stars {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 25% 40%, rgba(255,255,255,.5) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 40% 20%, rgba(255,255,255,.8) 0%, transparent 100%),
+        radial-gradient(1px 1px at 55% 70%, rgba(255,255,255,.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 10%, rgba(255,255,255,.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 80% 55%, rgba(255,255,255,.5) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 90% 30%, rgba(255,255,255,.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 15% 80%, rgba(255,255,255,.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 60% 90%, rgba(255,255,255,.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 35% 60%, rgba(255,255,255,.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 92% 85%, rgba(255,255,255,.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 48% 5%, rgba(255,255,255,.5) 0%, transparent 100%);
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 3rem;
+      background: rgba(26,14,8,0.6);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(125,255,138,0.15);
+    }
+    .nav-logo {
+      font-family: 'Orbitron', monospace; font-weight: 900; font-size: 1.1rem;
+      color: var(--glow-green); letter-spacing: 2px;
+      text-shadow: 0 0 20px rgba(125,255,138,.6);
+    }
+    .nav-logo span { color: var(--orange); }
+    nav ul { list-style: none; display: flex; gap: 2.5rem; }
+    nav a {
+      color: var(--muted); text-decoration: none;
+      font-size: .9rem; letter-spacing: 1px; font-weight: 600;
+      text-transform: uppercase; transition: color .3s;
+    }
+    nav a:hover { color: var(--glow-green); }
+
+    /* HERO */
+    #hero {
+      position: relative; min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 6rem 2rem 4rem;
+      overflow: hidden;
+    }
+    .hero-ground {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 35%;
+      background: linear-gradient(to top, #1a0e08 0%, #3d1a0a 40%, transparent 100%);
+      z-index: 1;
+    }
+    .hero-planet {
+      position: absolute; bottom: -120px; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(ellipse at 40% 35%,
+        #e8743a 0%, #c0522a 35%, #8b3a1c 60%, #3d1a0a 85%, #1a0e08 100%);
+      box-shadow: 0 0 80px 20px rgba(192,82,42,.3), 0 0 200px 60px rgba(192,82,42,.15);
+      z-index: 0;
+      animation: planetBreath 8s ease-in-out infinite;
+    }
+    @keyframes planetBreath {
+      0%,100% { box-shadow: 0 0 80px 20px rgba(192,82,42,.3), 0 0 200px 60px rgba(192,82,42,.15); }
+      50%      { box-shadow: 0 0 120px 40px rgba(125,255,138,.2), 0 0 300px 80px rgba(125,255,138,.08); }
+    }
+    .hero-planet::after {
+      content: ''; position: absolute; inset: 0; border-radius: 50%;
+      background:
+        radial-gradient(8px 8px at 30% 45%, rgba(125,255,138,.8) 0%, transparent 100%),
+        radial-gradient(5px 5px at 45% 55%, rgba(125,255,138,.6) 0%, transparent 100%),
+        radial-gradient(6px 6px at 55% 42%, rgba(61,255,212,.7) 0%, transparent 100%),
+        radial-gradient(4px 4px at 38% 60%, rgba(125,255,138,.5) 0%, transparent 100%);
+      animation: lifePulse 4s ease-in-out infinite;
+    }
+    @keyframes lifePulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+
+    .hero-content { position: relative; z-index: 2; }
+    .hero-badge {
+      display: inline-block;
+      border: 1px solid rgba(125,255,138,.4); color: var(--glow-green);
+      font-size: .75rem; letter-spacing: 3px; font-weight: 600;
+      padding: .4rem 1.2rem; border-radius: 100px; margin-bottom: 1.5rem;
+      text-transform: uppercase; background: rgba(125,255,138,.05);
+      animation: fadeDown .8s ease both;
+    }
+    h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 900;
+      line-height: 1.05; letter-spacing: -1px;
+      animation: fadeDown .8s .2s ease both;
+    }
+    h1 .green { color: var(--glow-green); text-shadow: 0 0 30px rgba(125,255,138,.5); }
+    h1 .sub { display: block; font-size: .45em; font-weight: 400; color: var(--orange); letter-spacing: 6px; margin-top: .3em; }
+    .hero-desc {
+      max-width: 560px; margin: 2rem auto;
+      font-size: 1.1rem; line-height: 1.8; color: var(--muted);
+      animation: fadeDown .8s .4s ease both;
+    }
+    .hero-cta {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      margin-top: 2.5rem; animation: fadeDown .8s .6s ease both;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: .6rem;
+      padding: .9rem 2.2rem; border-radius: 8px;
+      font-family: 'Syne', sans-serif; font-weight: 600;
+      font-size: 1rem; letter-spacing: 1px;
+      text-decoration: none; cursor: pointer; border: none; transition: all .3s;
+    }
+    .btn-primary { background: var(--glow-green); color: #0a1a0a; box-shadow: 0 0 30px rgba(125,255,138,.4); }
+    .btn-primary:hover { background: #a0ffab; box-shadow: 0 0 50px rgba(125,255,138,.7); transform: translateY(-2px); }
+    .btn-secondary { background: transparent; color: var(--text); border: 1px solid rgba(240,230,211,.25); }
+    .btn-secondary:hover { border-color: var(--glow-teal); color: var(--glow-teal); transform: translateY(-2px); }
+
+    .scroll-hint {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      font-size: .75rem; letter-spacing: 2px; color: var(--muted); text-transform: uppercase;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    .scroll-hint::after { content: '↓'; font-size: 1.2rem; color: var(--glow-green); }
+    @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+    @keyframes fadeDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+
+    /* SECTIONS */
+    section { position: relative; z-index: 1; }
+    .section-inner { max-width: 1100px; margin: 0 auto; padding: 6rem 2rem; }
+    .section-tag { font-size: .75rem; letter-spacing: 3px; text-transform: uppercase; color: var(--glow-green); font-weight: 600; margin-bottom: .8rem; }
+    h2 { font-family: 'Orbitron', monospace; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; margin-bottom: 1rem; line-height: 1.2; }
+    .section-sep { width: 60px; height: 3px; border-radius: 2px; background: linear-gradient(90deg, var(--glow-green), var(--glow-teal)); margin-bottom: 2rem; }
+
+    /* ABOUT */
+    #about { background: linear-gradient(180deg, var(--mars-dark) 0%, #12080400 100%); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .about-text p { color: var(--muted); line-height: 1.9; margin-bottom: 1.2rem; font-size: 1.05rem; }
+    .about-text strong { color: var(--text); }
+    .about-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .card {
+      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07);
+      border-radius: 12px; padding: 1.4rem; transition: all .3s;
+    }
+    .card:hover { border-color: rgba(125,255,138,.3); background: rgba(125,255,138,.04); transform: translateY(-3px); }
+    .card-icon { font-size: 1.8rem; margin-bottom: .8rem; }
+    .card h3 { font-family: 'Orbitron', monospace; font-size: .85rem; margin-bottom: .5rem; color: var(--glow-green); }
+    .card p { font-size: .85rem; color: var(--muted); line-height: 1.6; }
+
+    /* TRAILER */
+    #trailer { background: radial-gradient(ellipse at center, rgba(125,255,138,.04) 0%, transparent 70%); }
+    .trailer-wrapper { display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .trailer-wrapper h2, .trailer-wrapper .section-sep { margin-left: auto; margin-right: auto; }
+    .video-container {
+      position: relative; width: 100%; max-width: 860px;
+      aspect-ratio: 16/9; border-radius: 16px; overflow: hidden;
+      border: 1px solid rgba(125,255,138,.2);
+      box-shadow: 0 0 80px rgba(125,255,138,.1); margin-top: 2.5rem;
+    }
+    .video-container iframe { width: 100%; height: 100%; border: none; }
+
+    /* TERRAFORMING */
+    #terraforming { background: linear-gradient(180deg, transparent, rgba(30,15,5,.8), transparent); }
+    .steps { display: flex; flex-direction: column; margin-top: 3rem; position: relative; }
+    .steps::before {
+      content: ''; position: absolute; left: 28px; top: 0; bottom: 0; width: 2px;
+      background: linear-gradient(180deg, var(--rust), var(--glow-green));
+    }
+    .step {
+      display: flex; gap: 2rem; align-items: flex-start;
+      padding: 1.5rem 0; opacity: 0; animation: stepIn .6s ease forwards;
+    }
+    .step:nth-child(1){animation-delay:.1s} .step:nth-child(2){animation-delay:.2s}
+    .step:nth-child(3){animation-delay:.3s} .step:nth-child(4){animation-delay:.4s}
+    .step:nth-child(5){animation-delay:.5s} .step:nth-child(6){animation-delay:.6s}
+    @keyframes stepIn { from{opacity:0;transform:translateX(-20px)} to{opacity:1;transform:translateX(0)} }
+    .step-num {
+      flex-shrink: 0; width: 56px; height: 56px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Orbitron', monospace; font-weight: 900; font-size: .9rem;
+      background: var(--mars-dark); border: 2px solid var(--rust);
+      position: relative; z-index: 1; transition: all .3s;
+    }
+    .step:hover .step-num { border-color: var(--glow-green); color: var(--glow-green); box-shadow: 0 0 20px rgba(125,255,138,.3); }
+    .step-body h3 { font-family: 'Orbitron', monospace; font-size: 1rem; margin-bottom: .4rem; color: var(--text); }
+    .step-body p { color: var(--muted); font-size: .95rem; line-height: 1.7; }
+    .step-emoji { font-size: 1.3rem; margin-right: .5rem; }
+
+    /* SCREENSHOTS */
+    .screenshots-header { text-align: center; margin-bottom: 3rem; }
+    .screenshots-header .section-sep { margin: 0 auto; }
+    .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .gallery-item {
+      border-radius: 12px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,.07); aspect-ratio: 16/10;
+      background: rgba(255,255,255,.03); transition: all .3s;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: .6rem;
+    }
+    .gallery-item:hover { border-color: rgba(125,255,138,.3); transform: scale(1.02); }
+    .gallery-item.wide { grid-column: span 2; }
+    .gallery-placeholder-icon { font-size: 2.5rem; opacity: .5; }
+    .gallery-placeholder-text { font-size: .8rem; color: var(--muted); letter-spacing: 1px; }
+    .gallery-note {
+      text-align: center; margin-top: 1.5rem; font-size: .85rem; color: var(--muted);
+      border: 1px dashed rgba(255,255,255,.1); border-radius: 8px; padding: 1rem;
+    }
+    .gallery-note strong { color: var(--glow-green); }
+
+    /* DOWNLOAD */
+    #download { background: radial-gradient(ellipse at center bottom, rgba(125,255,138,.07) 0%, transparent 60%); }
+    .download-inner { text-align: center; max-width: 680px; margin: 0 auto; }
+    .download-inner p { color: var(--muted); margin-bottom: 3rem; font-size: 1.05rem; line-height: 1.8; }
+    .download-box {
+      background: rgba(125,255,138,.04); border: 1px solid rgba(125,255,138,.25);
+      border-radius: 20px; padding: 3rem 2rem; position: relative; overflow: hidden;
+    }
+    .download-box::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, rgba(125,255,138,.06) 0%, transparent 70%);
+    }
+    .download-box-content { position: relative; z-index: 1; }
+    .download-icon { font-size: 3.5rem; margin-bottom: 1rem; display: block; }
+    .download-box h3 { font-family: 'Orbitron', monospace; font-size: 1.3rem; margin-bottom: .5rem; color: var(--glow-green); }
+    .download-box .version { color: var(--muted); font-size: .85rem; margin-bottom: 2rem; }
+    .download-btn {
+      display: inline-flex; align-items: center; gap: .8rem;
+      padding: 1.1rem 3rem; border-radius: 10px;
+      background: var(--glow-green); color: #060f06;
+      font-family: 'Orbitron', monospace; font-size: 1rem; font-weight: 700;
+      text-decoration: none; letter-spacing: 1px;
+      box-shadow: 0 0 40px rgba(125,255,138,.5); transition: all .3s;
+    }
+    .download-btn:hover { background: #a0ffab; box-shadow: 0 0 70px rgba(125,255,138,.8); transform: translateY(-3px) scale(1.02); }
+    .download-btn.disabled { opacity: .5; pointer-events: none; cursor: not-allowed; }
+    .download-placeholder { margin-top: 1rem; font-size: .8rem; color: var(--muted); }
+    .platforms { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1.5rem; flex-wrap: wrap; }
+    .platform-badge { display: flex; align-items: center; gap: .4rem; font-size: .8rem; color: var(--muted); letter-spacing: 1px; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(255,255,255,.06);
+      padding: 3rem 2rem; text-align: center; color: var(--muted); font-size: .85rem;
+    }
+    footer .footer-logo {
+      font-family: 'Orbitron', monospace; font-weight: 900;
+      color: var(--glow-green); font-size: 1.2rem; margin-bottom: 1rem; display: block;
+      text-shadow: 0 0 20px rgba(125,255,138,.4);
+    }
+    footer p { line-height: 1.8; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; } nav ul { gap: 1.2rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .gallery { grid-template-columns: 1fr 1fr; }
+      .gallery-item.wide { grid-column: span 1; }
+      .hero-planet { width: 400px; height: 400px; bottom: -80px; }
+    }
+    @media (max-width: 480px) {
+      nav ul { display: none; }
+      .gallery { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="stars"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Blossom<span>.</span></div>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#trailer">Trailer</a></li>
+    <li><a href="#terraforming">Gameplay</a></li>
+    <li><a href="https://www.mediafire.com/file/tv5piyilh7i10dx/Blossom_The_Seed_of_Life.zip/file">Download</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-planet"></div>
+  <div class="hero-ground"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🌱 Indie Game</div>
+    <h1>
+      <span class="green">Blossom</span>
+      <span class="sub">The Seed of Life</span>
+    </h1>
+    <p class="hero-desc">
+      You are Blossom, a small lonely robot on a dead planet. Your mission isn't to survive — it's to <strong>bring life back to Mars</strong>.
+    </p>
+    <div class="hero-cta">
+      <a href="#download" class="btn btn-primary">⬇ Download</a>
+      <a href="#trailer" class="btn btn-secondary">▶ Watch Trailer</a>
+    </div>
+  </div>
+  <div class="scroll-hint">Discover</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-text">
+        <div class="section-tag">🤖 The Game</div>
+        <h2>A survival game like no other</h2>
+        <div class="section-sep"></div>
+        <p>
+          Forget zombies and combat. In <strong>Blossom</strong>, you play as a robot on <strong>Mars</strong> — a silent, barren planet. Your goal: transform it into a living world.
+        </p>
+        <p>
+          Instead of food, you manage <strong>electrical energy</strong>. Every step, every machine, every tool consumes power. And every decision shapes the planet around you.
+        </p>
+        <p>
+          Exploration, construction, automation, progressive terraforming... and somewhere, a mystery: <strong>what happened to Earth?</strong>
+        </p>
+      </div>
+      <div class="about-cards">
+        <div class="card">
+          <div class="card-icon">🌍</div>
+          <h3>Open World</h3>
+          <p>Freely explore on foot, by rover, or through the air. Discover ruins and abandoned stations.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">⚡</div>
+          <h3>Energy System</h3>
+          <p>No hunger. You manage your electrical energy and build charging systems to stay alive.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🚗</div>
+          <h3>Mobile Bases</h3>
+          <p>Build modular rovers. Your base travels with you anywhere on the planet.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🌿</div>
+          <h3>Ecosystems</h3>
+          <p>Create chains of life: algae, insects, animals. Become the creator of a whole new world.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRAILER -->
+<section id="trailer">
+  <div class="section-inner">
+    <div class="trailer-wrapper">
+      <div class="section-tag">🎬 Official Trailer</div>
+      <h2>Watch the planet wake up</h2>
+      <div class="section-sep"></div>
+      <div class="video-container">
+        <iframe
+          src="https://www.youtube.com/embed/i6q6MLoru1c"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          title="Blossom: The Seed of Life — Official Trailer">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TERRAFORMING -->
+<section id="terraforming">
+  <div class="section-inner">
+    <div class="section-tag">🪐 Gameplay</div>
+    <h2>Terraforming, step by step</h2>
+    <div class="section-sep"></div>
+    <p style="color:var(--muted); max-width:560px; line-height:1.8; margin-bottom:1rem;">
+      Every action transforms Mars. You start from a red desert and build, step by step, a living planet.
+    </p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <h3><span class="step-emoji">🌡️</span>Raise the Pressure</h3>
+          <p>Install atmospheric generators to thicken Mars's atmosphere. The very first step of any planetary transformation.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-body">
+          <h3><span class="step-emoji">🔥</span>Heat the Planet</h3>
+          <p>Deploy solar reflectors and thermal power plants. Ice begins to melt. Water appears for the first time.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <h3><span class="step-emoji">🪨</span>Transform the Dust</h3>
+          <p>Enrich the martian soil with bacteria and nutrients. Sterile rock slowly becomes fertile ground.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-body">
+          <h3><span class="step-emoji">🌊</span>Generate Oxygen</h3>
+          <p>Plant the first algae in water pools. They breathe. The atmosphere truly begins to change.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">05</div>
+        <div class="step-body">
+          <h3><span class="step-emoji">🌳</span>Grow Life</h3>
+          <p>Trees, plants, flowers... The red planet turns green. A visually unique and deeply satisfying sight.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">06</div>
+        <div class="step-body">
+          <h3><span class="step-emoji">🦋</span>Build Ecosystems</h3>
+          <p>Insects, animals, natural cycles. Evolution takes hold. You're no longer a robot — you're a god of life.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCREENSHOTS -->
+<section id="screenshots">
+  <div class="section-inner">
+    <div class="screenshots-header">
+      <div class="section-tag">🖼️ Screenshots</div>
+      <h2>What does it look like?</h2>
+      <div class="section-sep" style="margin: 1rem auto 0;"></div>
+    </div>
+
+    <div class="gallery" style="margin-top:2.5rem;">
+
+      <div class="gallery-item wide">
+        <img src="mars1.jpg" alt="Rover convoy on Mars">
+      </div>
+
+      <div class="gallery-item">
+        <img src="mars2.jpg" alt="Mining resources">
+      </div>
+
+      <div class="gallery-item">
+        <img src="mars3.jpg" alt="Exploration with rover">
+      </div>
+
+      <div class="gallery-item wide">
+        <img src="mars4.jpg" alt="Base building at night">
+      </div>
+
+      <div class="gallery-item">
+        <img src="mars5.jpg" alt="Character exploring">
+      </div>
+
+      <div class="gallery-item">
+        <img src="mars6.jpg" alt="Robot companion">
+      </div>
+
+      <div class="gallery-item wide">
+        <img src="mars7.jpg" alt="Night exploration">
+      </div>
+
+      <div class="gallery-item wide">
+        <img src="mars8.jpg" alt="Terraformed planet">
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- DOWNLOAD -->
+<section id="download">
+  <div class="section-inner">
+    <div class="download-inner">
+      <div class="section-tag">⬇ Download</div>
+      <h2>Join the mission</h2>
+      <div class="section-sep" style="margin: 1rem auto 2rem;"></div>
+      <p>Blossom is available for free. Dive into the adventure and start transforming Mars into a living world.</p>
+      <div class="download-box">
+        <div class="download-box-content">
+          <span class="download-icon">🌱</span>
+          <h3>Blossom: The Seed of Life</h3>
+          <div class="version">Early Access — Free</div>
+          <!--
+            ══════════════════════════════════════════════════════
+            REPLACE THE # BELOW with your actual download link
+            (itch.io, Google Drive, GameJolt, Dropbox, etc.)
+            ══════════════════════════════════════════════════════
+          -->
+          <a href="https://www.mediafire.com/file/tv5piyilh7i10dx/Blossom_The_Seed_of_Life.zip/file" class="download-btn disabled">
+            ⬇ Download for Free
+          </a>
+          <div class="download-placeholder">
+            ⚠️ Replace the <code>#</code> in the button above with your real download URL
+          </div>
+          <div class="platforms">
+            <div class="platform-badge">🪟 Windows</div>
+            <div class="platform-badge">🍎 macOS</div>
+            <div class="platform-badge">🐧 Linux</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">🌱 Blossom</span>
+  <p>Handcrafted with ❤️ by an indie developer · All rights reserved</p>
+  <p style="margin-top:.5rem; font-size:.8rem;">A game about survival, terraforming, and hope — on Mars.</p>
+</footer>
+
+</body>
+</html>
